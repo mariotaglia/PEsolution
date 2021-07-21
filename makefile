@@ -2,7 +2,7 @@ TARGET = binodal
 
 #SRC = modules.f90 SPmain.f90 parser.f90 init.f90 allocation.f90 allocateell.f90 3D.f90 cadenas.f90 cadenasMK.f90 fe.f90  fkfun.f90  kai.f90  kinsol.f90  pxs.f90  savetodisk.f90 rands.f90 ellipsoid.f90 dielectric.f90 monomers.definitions-onck.f90 chains.definitions.f90 sphere.f90 kapfromfile.f90
 
-SRC = modules.f90 e.f90     fkfun.f90     kinsol.f90   mu3.f90  readinput.f90  solve.f90 feold.f90  fracasos.f90  main.f90    mu2.f90      newarray.f90  salvar.f90
+SRC = modules.f90 fe.f90  fkfun.f90     kinsol.f90   mu3.f90  readinput.f90  solve.f90  fracasos.f90  main.f90    mu2.f90  
 
 HOST=$(shell hostname)
 $(info HOST is ${HOST})
@@ -63,7 +63,7 @@ GIT_VERSION := $(shell git describe --abbrev=6 --dirty --always --tags)
 GFLAGS=-cpp -D_VERSION=\"$(GIT_VERSION)\"
 
 FF = mpif77 #${F90}
-VER = ~/bin/multicapa_new
+VER = .
 
 all:	$(TARGET)
 
