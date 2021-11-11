@@ -14,15 +14,17 @@ real*16 phimin, phimax
 real*16 sigmaB
 real*16 csalt
 real*16 nor
-real*16 KaA
-real*16 KaB
+
+real*16 K0A
+real*16 K0B
+
 real*16 Knew
 real*16 pKaA
 real*16 pkaB
 real*16 pKaNa
 real*16 pKaCl
 real*16 pkEo
-real*16 Keo,csal,csalini,csalfin
+real*16 Kbind0,csal,csalini,csalfin
 integer ncsal
 real*16 KaHplus
 real*16 KaOHmin
@@ -30,7 +32,9 @@ real*16 pKaHplus,pKHbulk,cHplusbulk,pHbulk
 real*16 pKaOHmin,pOHbulk,cOHminbulk
 real*16 cNaplus,cClmin,pClbulk,pNabulk
 real*16 xNaplus, xClmin,xmNaplus,xmClmin
-real*16 KaNa,KaCl
+
+
+real*16 K0ANa,K0BCl
 real*16 expmupos, expmuneg, expmuHplus, expmuOHmin  
 !real*16 pHbulk
 !real*8 st

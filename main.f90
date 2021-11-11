@@ -13,7 +13,9 @@ use const
 use results
   implicit none
   integer i, flagcrash,iii
-  real*16 pKw,vsal,K0A,K0EO,K0B,K0ANa,K0BCl,kte
+
+  real*16 pKw,vsal,KAinput,Kbind,KBinput,KANainput,KBClinput,kte
+
   real*16 xposbulk,xnegbulk,xHplusbulk,xOHminbulk,Kw,xsalt
   real*16 xphisales,xsolvit,phialphamol,phibetamol
   real*16 saleihalphamol,saleihbeta,testsolvbeta,testsolvalpha 
@@ -25,22 +27,20 @@ use results
   call readinput  ! reads input variables from file
 !  call allocation ! allocates memory
 
-  K0eo=10**(-pKeo)
-  K0A=10**(-pKaA)
-  K0B=10**(-pKaB)
-  K0ANa=10**(-pKaNa)
-  K0BCl=10**(-pKaCl)
+  Kbind=10**(-pKeo)
+  KAinput=10**(-pKaA)
+  KBinput=10**(-pKaB)
+  KANainput=10**(-pKaNa)
+  KBClinput=10**(-pKaCl)
 
   pKw=14.0
   kW=10**(-pKw)
   pOHbulk=pKw-pHbulk
   cOHminbulk=10**(-pOHbulk)
   cHplusbulk=10**(-pHbulk)
-  !cNaplus=10**(-pNabulk)
-  !cClmin=10**(-pClbulk)
-  vsal=((4.0/3.0)*pi*(rsal)**3)/vs ! rsal=0.27
+
   vp=vpol!
- vsal=vs/vs!
+  vsal=vs/vs! Necesario segun notas !
   
   xposbulk=phi_sal  !NUEVO
   xnegbulk=phi_sal  !NUEVO
@@ -65,11 +65,13 @@ use results
 
   xsolbulk=1.0 -xHplusbulk -xOHminbulk - xnegbulk -xposbulk
 
-  KaA = (K0A*vs/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
-  KaNa = (K0ANa*vs/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
-  KaCl = (K0BCl*vs/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
-  KaB = (Kw/K0B*vs/xsolbulk)*(Na/1.0d24)
-  Keo = (K0eo)*(1.0d24/Na) !!!!!!!!!!!!!!!!!!!!!!!
+  K0A = (KAinput*vs/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
+  K0B = (Kw/KBinput*vs/xsolbulk)*(Na/1.0d24)
+
+  K0ANa = (KANainput/vs)/(Na/1.0d24)! Esta definida igual que en el paper JCP
+  K0BCl = (KBClinput/vs)/(Na/1.0d24)! Esta definida igual que en el paper JCP
+
+  Kbind0 = (Kbind)*(1.0d24/Na) !!!!!!!!!!!!!!!!!!!!!!!
   
 
 !  cHplusbulk=xHplusbulk
