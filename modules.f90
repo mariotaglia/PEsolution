@@ -32,7 +32,7 @@ real*16 pKaHplus,pKHbulk,cHplusbulk,pHbulk
 real*16 pKaOHmin,pOHbulk,cOHminbulk
 real*16 cNaplus,cClmin,pClbulk,pNabulk
 real*16 xNaplus, xClmin,xmNaplus,xmClmin
-
+real*16 ksal
 
 real*16 K0ANa,K0BCl
 real*16 expmupos, expmuneg, expmuHplus, expmuOHmin  
