@@ -14,8 +14,9 @@ use results
   implicit none
   integer i, flagcrash,iii
 
+  real*16 rhoNa, rhoCl, rhoNaCl
   real*16 pKw,vsal,KAinput,Kbind,KBinput,KANainput,KBClinput,kte
-
+  real*16 aa, bb, cc, xNaClbulk
   real*16 xposbulk,xnegbulk,xHplusbulk,xOHminbulk,Kw,xsalt
   real*16 xphisales,xsolvit,phialphamol,phibetamol
   real*16 saleihalphamol,saleihbeta,testsolvbeta,testsolvalpha 
@@ -63,7 +64,34 @@ use results
      xnegbulk=xsalt
   endif
 
-  xsolbulk=1.0 -xHplusbulk -xOHminbulk - xnegbulk -xposbulk
+! Concentration of free anf paired Na+ and Cl- in bulk reference
+
+  rhoNa = xposbulk/vs
+  rhoCl = xnegbulk/vs
+
+  aa = 1.
+  bb = -1.*(rhoNa+rhoCl+Ksal)
+  cc = rhoNa*rhoCl
+
+  rhoNaCl = ((-bb - sqrt(bb**2 - 4.*aa*cc))/(2.0*aa))
+
+  rhoNa = rhoNa - rhoNaCl
+  rhoCl = rhoCl - rhoNaCl
+ 
+!  print*, rhoNa*rhoCl/rhoNaCl
+
+  xposbulk = rhoNa*vs
+  xnegbulk = rhoCl*vs
+  xNaClbulk = rhoNaCl*2.*vs
+
+!  print*, '!!!!', xposbulk, xnegbulk, xNaClbulk
+!  print*, '$$$$', (xposbulk/vs)*(xnegbulk/vs)/(xNaClbulk/2.0/vs), Ksal
+
+  if(xNaClbulk.lt.0.0)cycle ! if negative, go to next salt concentration
+
+!!!!!!!!!!!!!!!!!!!!!
+
+  xsolbulk=1.0 -xHplusbulk -xOHminbulk - xnegbulk -xposbulk -xNaClbulk
 
   K0A = (KAinput*vs/xsolbulk)*(Na/1.0d24)! intrinstic equilibruim constant 
   K0B = (Kw/KBinput*vs/xsolbulk)*(Na/1.0d24)

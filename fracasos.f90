@@ -9,48 +9,35 @@ real*16 M,Kap,Kbp,Kop,xOHmin,xHplus
 real*16 KNap,KClp
 real*16 alfaA, alfaB, betaA, betaB, gamaA, gamaB, auxB, auxC
 
-real*16 xNaplus_free, xClmin_free
-real*16 aa, bb, cc, csalsol
+real*16 aa, bb, cc
 
 xphiA=x(1);
 xphiB=x(2);
 xmphiA=xphiA/(Ma*vp);
 xmphiB=xphiB/(Mb*vp);
 
-xsolv=(1.0 -xphiA-xphiB)/(1.+expmupos+expmuneg+expmuHplus+expmuOHmin)
+
+aa = expmupos*expmuneg/Ksal
+bb = (1.+expmupos+expmuneg+expmuHplus+expmuOHmin)
+cc = -(1.0 -xphiA-xphiB)
+
+xsolv = (-bb + sqrt(bb**2 - 4.*aa*cc))/(2.0*aa)
+
 xHplus=xsolv*expmuHplus
 xOHmin=xsolv*expmuOHmin
 xNaplus=xsolv*expmupos
 xClmin=xsolv*expmuneg
 
-aa = 1.
-bb = -1.*(xNaplus/vs+xClmin/vs+Ksal)
-cc = xNaplus*xClmin/vs/vs
-
-csalsol = (-bb - sqrt(bb**2 - 4.*aa*cc))/2.0
-
-!if(csalsol.lt.0.0)csalsol = 0.0
-
-xNaplus_free = xNaplus - csalsol*vs  
-xClmin_free = xClmin - csalsol*vs  
-
-!print*, xNaplus, xNaplus_free
-!print*, xClmin, xClmin_free
-!print*, csalsol
-!stop
-
-!print* ,x
-
 betaA=K0A*xsolv/xHplus
 betaB=K0B*xsolv/xOHmin
 
-KNap=xNaplus_free*K0A/(xHplus*K0ANa)
-KClp=xClmin_free*K0B/(xOHmin*K0BCl)
+KNap=xNaplus*K0A/(xHplus*K0ANa)
+KClp=xClmin*K0B/(xOHmin*K0BCl)
 
   auxC = xphiB/xphiA
 
-  alfaA = K0ANa*xNaplus_free/xsolv
-  alfaB = K0BCl*xClmin_free/xsolv
+  alfaA = K0ANa*xNaplus/xsolv
+  alfaB = K0BCl*xClmin/xsolv
 
   gamaA = 1.0+alfaA+1.0/betaA
   gamaB = 1.0+alfaB+1.0/betaB
