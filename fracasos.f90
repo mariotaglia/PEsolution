@@ -17,11 +17,21 @@ xmphiA=xphiA/(Ma*vp);
 xmphiB=xphiB/(Mb*vp);
 
 
-aa = expmupos*expmuneg*Ksal
+
+
+
+aa = expmupos*expmuneg*Ksal*2.*vs
 bb = (1.+expmupos+expmuneg+expmuHplus+expmuOHmin)
 cc = -(1.0 -xphiA-xphiB)
 
 xsolv = (-bb + sqrt(bb**2 - 4.*aa*cc))/(2.0*aa)
+
+
+
+
+
+
+
 
 xHplus=xsolv*expmuHplus
 xOHmin=xsolv*expmuOHmin
