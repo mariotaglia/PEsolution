@@ -70,7 +70,7 @@ use results
   rhoCl = xnegbulk/vs
 
   aa = 1.
-  bb = -1.*(rhoNa+rhoCl+1./Ksal)
+  bb = -1.*(rhoNa+rhoCl+1./Ksal/vs)
   cc = rhoNa*rhoCl
 
   rhoNaCl = ((-bb - sqrt(bb**2 - 4.*aa*cc))/(2.0*aa))

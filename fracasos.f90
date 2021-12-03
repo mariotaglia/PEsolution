@@ -20,7 +20,7 @@ xmphiB=xphiB/(Mb*vp);
 
 
 
-aa = expmupos*expmuneg*Ksal*2.*vs
+aa = expmupos*expmuneg*Ksal*2.
 bb = (1.+expmupos+expmuneg+expmuHplus+expmuOHmin)
 cc = -(1.0 -xphiA-xphiB)
 
