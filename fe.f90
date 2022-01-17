@@ -66,7 +66,7 @@ Free_Energy = 0.0
   Free_Energy=Free_Energy +xmphiA*Ma*fa_A+(log(xsolv))/vs
 
 elib=Free_Energy
-xmsalt = (xmNaplus+xmClmin)/2.0 + xmNaCl
+xmsalt = (xmNaplus+xmClmin)/2.0 + (xmphiA*Ma*fNa_a + xmphiB*Mb*fCl_b)/2.0 + xmNaCl
 return 
 end subroutine
 
