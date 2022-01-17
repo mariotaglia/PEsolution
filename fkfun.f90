@@ -77,7 +77,7 @@ call fe(vectalpha,elib,xmsalt)
 fealpha=elib
 xmsaltcalc(1) = xmsalt
 
-call fe(vectbeta,elib)
+call fe(vectbeta,elib, xmsalt)
 febeta=elib
 xmsaltcalc(2) = xmsalt
 
