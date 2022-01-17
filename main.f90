@@ -1,4 +1,4 @@
-  !###############################################################################!     
+!  ###############################################################################!     
   !     Simple brush: Standard Molecular Theory Program 
   !    
   !     Calculates a weak polyelectrolyte brush in poor sv conditions 
@@ -111,105 +111,34 @@ expmuHplus=xHplusbulk/xsolbulk ! vHplus=vsol
 expmuOHmin=xOHminbulk/xsolbulk ! vOHminus=vsol
 
   call solve(flagcrash)
-!call fe(cc, ccc)         ! calculates and saves free energy to disk
-!  call salvando(flagcrash)
-!  print*, 'Save OK',yes
 
 if (flaggg==1)then
 yes=yes+1
 
+arraycsalmol(1,yes)=xmsaltalpha/Na*1.d24 
+arraycsalmol(2,yes)=xmsaltbeta/Na*1.d24 
 
-arraycsalmol(1,yes)=csal
-arraycsal(1,yes)=xsalt
-arrayalpha(1,yes)=min(10**(-arrayalphagrid(1,1)),10**(-arraybetagrid(1,1)))
-arraybeta(1,yes)=max(10**(-arrayalphagrid(1,1)),10**(-arraybetagrid(1,1)))
+arraycsal(1,yes)=xmsaltalpha
+arraycsal(2,yes)=xmsaltbeta
 
-phialphamol=arrayalpha(1,yes)*10/(6.02*vp)
-arrayalphamol(1,yes)=phialphamol*2
-phibetamol=arraybeta(1,yes)*10/(6.02*vp)
-arraybetamol(1,yes)=phibetamol*2
+arraypolmol(1,yes)=xpolalpha*1.e24/Na/vp*2  ! concentracion molar de monomeros, el "*2" da cuenta de que es conc. polA+polB  
+arraypolmol(2,yes)=xpolbeta*1.e24/Na/vp*2
 
-saleihalphamol=arrayalpha(1,yes)*10/(6.02*0.195)  !usando que vp =0.195  de saleih
-arraysaleihalpha(1,yes)=saleihalphamol*2
-
-saleihbetamol=arraybeta(1,yes)*10/(6.02*vp)    !usando que vp=0.195 de saleih
-arraysaleihbeta(1,yes)=saleihbetamol*2
-
-xsolvalpha=(1.-arrayalpha(1,yes)-arrayalpha(1,yes)-xsalt)/(1.+expmuHplus+expmuohmin)
-testsolvalpha=(1.-arrayalpha(1,yes)-arrayalpha(1,yes)-xsalt)
-arraysolvalpha(1,yes)= xsolvalpha*10/(6.02*0.03)
-
-xsolvbeta=(1.-arraybeta(1,yes)-arraybeta(1,yes)-xsalt)/(1.+expmuHplus+expmuohmin)
-testsolvbeta=(1.-arraybeta(1,yes)-arraybeta(1,yes)-xsalt)
-arraysolvbeta(1,yes)= xsolvbeta*10/(6.02*0.03)
-
-print*,'Solvent, testsolvent',xsolvalpha,testsolvalpha
-print*,'Solvent, testsolvent',xsolvbeta,testsolvbeta
-
-arrayconstalpha(1,yes)=2*arrayalpha(1,yes)+xsolvalpha+xsalt
-arrayconstbeta(1,yes)=2*arraybeta(1,yes)+xsolvbeta+xsalt
-
-porcenpolalpha(1,yes)=100*arraysaleihalpha(1,yes)/(arraysaleihalpha(1,yes)+csal+arraysolvalpha(1,yes))
-porcenpolbeta(1,yes)=100*arraysaleihbeta(1,yes)/(arraysaleihbeta(1,yes)+csal+arraysolvbeta(1,yes))
-porcensalalpha(1,yes)=100*csal/(arraysaleihalpha(1,yes)+csal+arraysolvalpha(1,yes))
-porcensalbeta(1,yes)=100*csal/(arraysaleihbeta(1,yes)+csal+arraysolvbeta(1,yes))
-
-print*, 'xphisales, phialpha, phibeta', arraycsal(1,yes),arrayalpha(1,yes),arraybeta(1,yes)
-print*,'csalmol, alphamol,betamol',arraycsal(1,yes),arraybetamol(1,yes),arrayalphamol(1,yes)
 endif
 
 
 enddo ! i
 
-open (unit=1,file='alphaarray.txt',status='replace')
-
-do iii=1,yes
-   write (1,*) arrayalpha(1,iii), arraycsal(1,iii)
-end do
-
-open (unit=2,file='betaarray.txt',status='replace')
-
-do iii=1,yes
-   write (2,*) arraybeta(1,iii), arraycsal(1,iii)
-end do
-
-
 open (unit=3,file='csalmolalpha.txt',status='replace')
 
 do iii=1,yes
-   write (3,*) arrayalphamol(1,iii), arraycsalmol(1,iii)
+   write (3,*) arraypolmol(1,iii), arraycsalmol(1,iii)
 end do
 
 open (unit=4,file='csalmolbeta.txt',status='replace')
 
 do iii=1,yes
-   write (4,*) arraybetamol(1,iii), arraycsalmol(1,iii)
-end do
-
-
-open (unit=5,file='saleihalpha.txt',status='replace')
-
-do iii=1,yes
-   write (5,*) arraysaleihalpha(1,iii), arraycsal(1,iii)
-end do
-
-open (unit=6,file='saleihbeta.txt',status='replace')
-
-do iii=1,yes
-   write (6,*) arraysaleihbeta(1,iii), arraycsal(1,iii)
-end do
-
-
-open (unit=7,file='porcalpha.txt',status='replace')
-
-do iii=1,yes
-   write (7,*) porcenpolalpha(1,iii), porcensalalpha(1,iii)
-end do
-
-open (unit=8,file='porcbeta.txt',status='replace')
-
-do iii=1,yes
-   write (8,*) porcenpolbeta(1,iii), porcensalbeta(1,iii)
+   write (4,*) arraypolmol(2,iii), arraycsalmol(2,iii)
 end do
 
   call endall     ! clean up and terminate

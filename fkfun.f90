@@ -24,6 +24,7 @@ integer ntot
 real*8 x(3),f(3)
 real*16 protemp, protemp1
 integer i,j, k, ix, iy, iz, ii, ax, ay, az, temp, iiZ
+real*16 xmsalt
 !real*16 xpotA(dimz),fdisbc,fdisAC
 !real*16 xpotB(dimz)
 !real*16 psi2(0:dimz+1) ! psi plus boundaries at z=0 and dimz+1
@@ -44,7 +45,7 @@ real*16 xOHminalpha,xOHminbeta
 real*16 fracalpha(8), fracbeta(8)
 
 
-x2alpha=10**(-x(1))
+x2alpha=10**(-x(1)) ! volume fraction 
 x3alpha=x2alpha
 x2beta=10**(-x(2))
 x3beta=x2beta
@@ -54,32 +55,9 @@ vectalpha(2)=x3alpha
 vectbeta(1)=x2beta
 vectbeta(2)=x3beta
 
-
-xsolventalpha=(1.0-x2alpha-x3alpha)/(1+expmuOHmin+expmuHplus+expmupos+expmuneg)
-xsolventbeta=(1.0-x2beta-x3beta)/(1+expmuOHmin+expmuHplus+expmupos+expmuneg)
-
-!xsolventalpha=(1.0 -x2alpha-x3alpha-xNaplus-xClmin)/(1.+cHplusbulk+cOHminbulk)
-!xsolventbeta= (1.0 -x2beta-x3beta-xNaplus-xClmin)/(1.+cHplusbulk+cOHminbulk)
-xHplusalpha=xsolventalpha*cHplusbulk
-xOHminalpha=xsolventalpha*cOHminbulk
-xHplusbeta=xsolventbeta*cHplusbulk
-xOHminbeta=xsolventbeta*cOHminbulk
-
-!print* , xsolventalpha,xsolventbeta
-!print* , xHplusalpha,xOHminalpha
-!print* , xHplusbeta,xOHminbeta
-!print* , x2alpha,x3alpha
-!print* , x2beta,x3beta
-!stop
-
-
 call fracasos(vectalpha,fracalpha)
 call fracasos(vectbeta,fracbeta)
  
-!print* , fracalpha
-!print* , fracbeta
-!stop 
-! Pot quimico respecto de phiA 
 Penality=(x2alpha-x2beta)**2/(x2alpha+x2beta)**2
 Penality2=((x2alpha-x3alpha)**2+(x2beta-x3beta)**2)
 
@@ -95,15 +73,13 @@ mu3alpha = potquim3
 call mu3(vectbeta,potquim3)
 mu3beta=potquim3
  
-call fe(vectalpha,elib)
+call fe(vectalpha,elib,xmsalt)
 fealpha=elib
+xmsaltcalc(1) = xmsalt
 
 call fe(vectbeta,elib)
 febeta=elib
-
-!print*, mu2beta,mu2alpha,mu3alpha,mu3beta
-!stop
-! ### EQUATIONS TO SOLVE
+xmsaltcalc(2) = xmsalt
 
  f(1)= mu2alpha-mu2beta
  f(1)=f(1)/Penality

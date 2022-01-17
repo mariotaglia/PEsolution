@@ -29,7 +29,6 @@ real*16 phi0,xphisales,xsolvit
 integer flag
 integer ngrid
 !real*16 arrayalphagrid(2,50000), arraybetagrid(2,50000)
-integer gridpoints
 real*16 xiter,xsolventalpha,xsolventbeta,xHplusalpha,xHplusbeta,xNaplusalpha,xNaplusbeta
 real*16 xClminalpha,xClminbeta
 real* 16 testarray(2),testmu2,testmu3,elib1,testfrac(8),xOhminalpha,xOHminbeta
@@ -44,7 +43,6 @@ neg=0
    ngrid = npasosgrid
    criterio=1E-8!criterio pra la norma
    tolerancia=1E-3!criterio pra la diferencia de concentraciones relativa
-   gridpoints = 0
 
 ! #### GRID SEARCH
 
@@ -61,7 +59,6 @@ flaggg=0
       x2alpha = float(i)
       x2beta = float(j)
  
-
       x1(1)=x2alpha
       x1g(1)=x1(1)
       x1(2)=x2beta     !x2phibeta inicial
@@ -75,24 +72,27 @@ flaggg=0
        if ((norma.lt.criterio).and.(abs(x1(1)-x1(2)/(x1(1)+x1(2))).gt.tolerancia))exit
    enddo
 
-       if ((norma.lt.criterio).and.(abs(x1(1)-x1(2)/(x1(1)+x1(2))).gt.tolerancia)) then
-flaggg=1
-         gridpoints = gridpoints + 1
-         print*,'Grid Point OK',gridpoints,yes
+      
+
+       if ((norma.lt.criterio).and.(abs(x1(1)-x1(2)/(x1(1)+x1(2))).gt.tolerancia)) then ! encuentra solucion
+
+         flaggg=1
+         print*,'Grid Point OK',yes
+
+       
+         if(x1(1).gt.x1(2)) then
+            xpolalpha = 10**(-x1(1)) ! volume fraction
+            xpolbeta = 10**(-x1(2))
+            xmsaltalpha = xmsaltcalc(1) ! number density
+            xmsaltbeta = xmsaltcalc(2)
+         else
+            xpolalpha = 10**(-x1(2)) ! volume fraction
+            xpolbeta = 10**(-x1(1))
+            xmsaltalpha = xmsaltcalc(2) ! number density
+            xmsaltbeta = xmsaltcalc(1)
+         endif                     
+
          print*,'csal,x2alpha,x2beta',csal,min(10**(-x1(1)),10**(-x1(2))),max(10**(-x1(1)),10**(-x1(2)))
-
-         arrayalphagrid(1,gridpoints)=x1(1)
-         arrayalphagrid(2,gridpoints)=x1(1)
-         arraybetagrid(1,gridpoints)=x1(2)
-         arraybetagrid(2,gridpoints)=x1(2)
-!arraycsal(1,gridpoints)=csal
-!arrayalpha(1,gridpoints)=min(10**(-x1(1)),10**(-x1(2)))
-!arraybeta(1,gridpoints)=max(10**(-x1(1)),10**(-x1(2)))
-xsolvit=(1.0-2*min(10**(-arrayalphagrid(1,1)),10**(-arraybetagrid(1,1))))
-xsolvit=xsolvit/(1.+expmuHplus+expmuOHmin+expmuneg+expmupos)
-xphisales=xsolvit*(expmupos+expmuneg)
-
-print*,'xphisales',xphisales
 
        endif
 

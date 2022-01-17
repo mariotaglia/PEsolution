@@ -1,4 +1,4 @@
-subroutine fe(x,elib)
+subroutine fe(x,elib,xmsalt)
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
@@ -19,7 +19,7 @@ use const
 implicit none
 
 real*16 x(2)
-real*16 elib,xmsolv,xmOHmin,xmHplus, xmNaCl
+real*16 elib,xmsolv,xmOHmin,xmHplus, xmNaCl, xmsalt
 real*16 Free_energy 
 integer i, iz, iiz
 !real*8 xtotal(-Xulimit:dimz+Xulimit) ! xtotal for poor solventireal
@@ -66,6 +66,7 @@ Free_Energy = 0.0
   Free_Energy=Free_Energy +xmphiA*Ma*fa_A+(log(xsolv))/vs
 
 elib=Free_Energy
+xmsalt = (xmNaplus+xmClmin)/2.0 + xmNaCl
 return 
 end subroutine
 

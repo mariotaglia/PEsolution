@@ -44,8 +44,7 @@ endmodule
 module results
 real*16 x2alphafixed
 !real*16 x3alphafixed
-real*16 arrayalpha(2,400000)
-real*16 arraybeta(2,400000)
+real*16 arraypolmol(2,400000)
 real*16 finalalpha(2,400000)
 real*16 finalbeta(2,400000)
 real*16 cargaalpha(1,400000)
@@ -57,7 +56,7 @@ real*16 sumalphaNaCl(1,400000)
 real*16 sumbetaNaCl(1,400000)
 real*16 arraysolvalpha(1,400000)
 real*16 arraysolvbeta(1,400000)
-real*16 arraycsal(1,400000)
+real*16 arraycsal(2,400000)
 real*16 arrayNaplusalpha(1,400000)
 real*16 arrayNaplusbeta(1,400000)
 real*16 arraybetamol(2,400000)
@@ -95,6 +94,11 @@ real*16 array_fchB_beta(1,400000)
 real*16 array_fucB_beta(1,400000)
 real*16 array_fIPB_beta(1,400000)
 real*16 array_fPPB_beta(1,400000)
+
+real*16 xmsaltcalc(2)
+real*16 xmsaltalpha, xmsaltbeta
+real*16 xpolalpha, xpolbeta
+
 
 integer cont
 endmodule
