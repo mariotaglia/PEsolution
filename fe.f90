@@ -18,24 +18,31 @@ use system
 use const
 implicit none
 
-integer cc, ccc
 real*16 x(2)
-real*16 elib,xmsolv,xmOHmin,xmHplus
+real*16 elib,xmsolv,xmOHmin,xmHplus, xmNaCl
 real*16 Free_energy 
 integer i, iz, iiz
 !real*8 xtotal(-Xulimit:dimz+Xulimit) ! xtotal for poor solventireal
 real*16 xphiA,xphiB,xsolv,fa_A,fa_B,xmphiA,xmphiB,fnc_a,fnc_B,fc_A,fc_B,fNa_a,fCl_b
 real*16 frac(8)
+real*16 aa,bb,cc
 
 ! Calculation of xsolvent
 xphiA=x(1)
 xphiB=x(2)
-xsolv=(1.0-xphiA-xphiB)/(1.+expmuHplus+expmuOHmin+expmuneg+expmupos)
-xmsolv=xsolv/vs
-xmHplus=xmsolv*expmuHplus
-xmOHmin=xmsolv*expmuOHmin
-xmNaplus=xmsolv*expmupos
-xmClmin=xmsolv*expmuneg
+
+aa = expmupos*expmuneg*Ksal*2.
+bb = (1.+expmupos+expmuneg+expmuHplus+expmuOHmin)
+cc = -(1.0 -xphiA-xphiB)
+
+xsolv = (-bb + sqrt(bb**2 - 4.*aa*cc))/(2.0*aa) ! solvent volume fraction
+xmsolv=xsolv/vs ! solvent number density
+
+xmHplus=xmsolv*expmuHplus ! number density
+xmOHmin=xmsolv*expmuOHmin ! number density
+xmNaplus=xmsolv*expmupos  ! number density
+xmClmin=xmsolv*expmuneg   ! number density
+xmNaCl = ksal/vs*expmupos*expmuneg ! number density
 
 call fracasos(x,frac)
 fa_A=frac(1)
@@ -54,7 +61,7 @@ Free_Energy = 0.0
 
 ! 1. solvent entropy
 
-  Free_Energy=Free_Energy-xmphiA-xmphiB-xmsolv-xmHplus-xmOHmin-xmNaplus-xmClmin
+  Free_Energy=Free_Energy-xmphiA-xmphiB-xmsolv-xmHplus-xmOHmin-xmNaplus-xmClmin-xmNaCl
 
   Free_Energy=Free_Energy +xmphiA*Ma*fa_A+(log(xsolv))/vs
 

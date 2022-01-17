@@ -7,12 +7,18 @@ real*16 x(2)
 real*16 potquim2,fa_A,fa_B,fnc_B,fnc_a,fc_A,fc_b,fNa_a,fCl_b
 real*16 xphiA,xphiB,xmphiA,xmphiB,xsolv,xHplus
 real*16 frac(8)
+real*16 aa,bb,cc
 
 xphiA=x(1)
 xphiB=x(2)
 xmphiA=xphiA/(Ma*vp)
 xmphiB=xphiB/(Mb*vp)
-xsolv=(1.0 -xphiA-xphiB)/(1.+expmupos+expmuneg+expmuHplus+expmuOHmin)
+
+aa = expmupos*expmuneg*Ksal*2.
+bb = (1.+expmupos+expmuneg+expmuHplus+expmuOHmin)
+cc = -(1.0 -xphiA-xphiB)
+
+xsolv = (-bb + sqrt(bb**2 - 4.*aa*cc))/(2.0*aa) ! solvent volume fraction
 
 call fracasos(x,frac)
 !frac=fracasos(x,xphiB)
