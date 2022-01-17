@@ -42,7 +42,7 @@ neg=0
    nmax=npasos     ! npasos por consola i
    ngrid = npasosgrid
    criterio=1E-8!criterio pra la norma
-   tolerancia=1E-3!criterio pra la diferencia de concentraciones relativa
+   tolerancia=1E-4!criterio pra la diferencia de concentraciones relativa
 
 ! #### GRID SEARCH
 
