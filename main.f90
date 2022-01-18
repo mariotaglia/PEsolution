@@ -118,6 +118,9 @@ yes=yes+1
 arraycsalmol(1,yes)=xmsaltalpha/Na*1.d24 
 arraycsalmol(2,yes)=xmsaltbeta/Na*1.d24 
 
+arraycsalmolbulk(1,yes)=((xnegbulk+xposbulk)/2.0+xNaClbulk)/Na*1.d24/vs 
+arraycsalmolbulk(2,yes)=((xnegbulk+xposbulk)/2.0+xNaClbulk)/Na*1.d24/vs
+
 arraycsal(1,yes)=xmsaltalpha
 arraycsal(2,yes)=xmsaltbeta
 
@@ -141,6 +144,20 @@ do iii=1,yes
    write (4,*) arraypolmol(2,iii), arraycsalmol(2,iii)
 end do
 
+
+open (unit=30,file='csalbulkalpha.txt',status='replace')
+
+do iii=1,yes
+   write (30,*) arraypolmol(1,iii), arraycsalmolbulk(1,iii)
+end do
+
+open (unit=40,file='csalbulkbeta.txt',status='replace')
+
+do iii=1,yes
+   write (40,*) arraypolmol(2,iii), arraycsalmolbulk(2,iii)
+end do
+
+ 
   call endall     ! clean up and terminate
 
 
