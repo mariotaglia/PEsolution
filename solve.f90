@@ -42,7 +42,7 @@ neg=0
    nmax=npasos     ! npasos por consola i
    ngrid = npasosgrid
    criterio=1E-8!criterio pra la norma
-   tolerancia=1E-4!criterio pra la diferencia de concentraciones relativa
+   tolerancia=0.01!criterio pra la diferencia de concentraciones relativa
 
 ! #### GRID SEARCH
 
@@ -50,19 +50,22 @@ linearsolver = 2
 flaggg=0
 ! ida
 
-   do i=0,ngrid
-   do j=i+1,ngrid
+   do i=0, ngrid
+   do j=i+1, ngrid
   
-      x2alpha  = 10**xiteri ! x2phialpha
-      x2beta  = 10**xiterj
+      xiteri = (log10(phimax)-log10(phimin))*float(i)/float(ngrid) + log10(phimin)
+      xiterj = (log10(phimax)-log10(phimin))*float(j)/float(ngrid) + log10(phimin)
 
-      x2alpha = float(i)
-      x2beta = float(j)
- 
+
+      x2alpha  = -xiteri ! x2phialpha
+      x2beta  = -xiterj
+
       x1(1)=x2alpha
       x1g(1)=x1(1)
       x1(2)=x2beta     !x2phibeta inicial
       x1g(2)=x1(2)
+
+!      print*, 10**(-x1(1)), 10**(-x1(2))
 
       call call_kinsol(x1, x1g, ier)
 
