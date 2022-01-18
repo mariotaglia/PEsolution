@@ -68,6 +68,10 @@ read(8, *), pKaCl     ! polymer-polymer attraction strenght in kBT
 read(8, *), basura
 read(8, *), ksal  ! cutoff for porr sv interaction in lattice sites
 
+read(8, *), basura
+read(8, *), chi  ! cutoff for porr sv interaction in lattice sites
+
+
 !read(8, *), basura
 !read(8, *), infile ! read input from file?
 

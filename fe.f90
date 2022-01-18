@@ -63,7 +63,7 @@ Free_Energy = 0.0
 
   Free_Energy=Free_Energy-xmphiA-xmphiB-xmsolv-xmHplus-xmOHmin-xmNaplus-xmClmin-xmNaCl
 
-  Free_Energy=Free_Energy +xmphiA*Ma*fa_A+(log(xsolv))/vs
+  Free_Energy=Free_Energy +xmphiA*Ma*fa_A+(log(xsolv))/vs + 0.5*chi*Ma*Ma*(xmphiA+xmphiB)**2
 
 elib=Free_Energy
 xmsalt = (xmNaplus+xmClmin)/2.0 + (xmphiA*Ma*fNa_a + xmphiB*Mb*fCl_b)/2.0 + xmNaCl

@@ -30,7 +30,7 @@ fc_a=frac(5)
 fc_b=frac(6)
 fNa_a=frac(7)
 fCl_b=frac(8)
-potquim2= log(xmphiA*vs)-(Ma*vp/vs)*log(xsolv)+Ma*(log(fc_A))!-log(xHplus)+log(xsolv))
+potquim2= log(xmphiA*vs)-(Ma*vp/vs)*log(xsolv)+Ma*(log(fc_A))-chi*Ma*Ma*(xmphiA+xmphiB)
 
 !print* ,potquim2
 !stop
